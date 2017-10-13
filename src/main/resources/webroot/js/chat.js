@@ -137,6 +137,7 @@ $(document).ready(function(){
 					CHAT.sendText();
 				}
 			});
+			
 			//将消息添加到聊天面板
 			//专门处理服务端发来的消息
 			var appendToPanel = function(msg){

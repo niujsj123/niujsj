@@ -51,7 +51,6 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter{
 			} while (send(message));
 			scan.close();
 //		};
-//		es.execute(r);
 //		es.shutdown();
 	}
 

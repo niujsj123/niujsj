@@ -12,29 +12,30 @@ public class WebsocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 		processor.sendMsg(ctx.channel(), msg.text());
+//		ctx.fireChannelRead(msg.retain());
 	}
 	
-//	@Override
-//	public void channelActive(ChannelHandlerContext ctx) throws Exception {   //(2)
-//		System.out.println("Client " + ctx.channel().remoteAddress() + "上线");
-//	}
-//
-//	@Override
-//	public void channelInactive(ChannelHandlerContext ctx) throws Exception {  //(4)
-//		System.out.println("Client " + ctx.channel().remoteAddress() + "掉线");
-//	}
+	@Override
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {   //(2)
+		System.out.println("Client " + ctx.channel().remoteAddress() + "上线");
+	}
 
-//	@Override
-//	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {//异常
-//		System.out.println("Client " + ctx.channel().remoteAddress() + "异常");
-//		cause.printStackTrace();
-//		ctx.close();
-//	}
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {  //(4)
+		System.out.println("Client " + ctx.channel().remoteAddress() + "掉线");
+	}
 
-//	@Override
-//	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {  //(1)
-//		System.out.println("Client " + ctx.channel().remoteAddress() + "加入");
-//	}
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {//异常
+		System.out.println("Client " + ctx.channel().remoteAddress() + "异常");
+		cause.printStackTrace();
+		ctx.close();
+	}
+
+	@Override
+	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {  //(1)
+		System.out.println("Client " + ctx.channel().remoteAddress() + "加入");
+	}
 	
 	@Override
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {

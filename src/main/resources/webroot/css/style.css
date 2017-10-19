@@ -276,7 +276,7 @@ div.robot>div,
 section.robot>div,
 section.service>div,
 section.top-message>div{
- max-width: 225px;
+ /* max-width: 225px; */
  display: inline-block;
  position:relative;
  padding:12px;
@@ -417,7 +417,7 @@ color:#2982e5;
  font-weight:700;
 }
 .service>span{
-   max-width: 60px;
+   /* max-width: 60px; */
    height: 36px;
  /*
    background: url("https://i.alipayobjects.com/i/ecmng/png/201404/2O35FCjByn.png");
@@ -564,6 +564,10 @@ time {
 
 .tool-box span.flower{
 	background: url("/images/icon/flower.png") no-repeat;
+}
+
+.tool-box span.pic{
+	background: url("/images/icon/pic.png") no-repeat;
 }
 
 .copyright{
@@ -860,7 +864,7 @@ button:active, button[disabled]{
    background: #93c3e5;
 }
 .user .avatar-img,.avatar-service{
- width: 34px;
+/*  width: 34px; */
  height: 34px;
  border-radius: 2px;
 }

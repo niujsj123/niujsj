@@ -1,6 +1,8 @@
 package io.chat.server;
 
 
+import io.chat.server.handler.HttpFileHandler;
+import io.chat.server.handler.HttpRequestHandler;
 import io.chat.server.handler.HttpServerHandler;
 import io.chat.server.handler.ImHandler;
 import io.chat.server.handler.WebsocketHandler;
@@ -16,8 +18,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpContentCompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpObjectEncoder;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.json.JsonObjectDecoder;
@@ -57,13 +62,27 @@ public class ChatServer {
 					
 					
 					//======== 对HTTP协议的支持  ==========
-					pipeline.addLast(new HttpServerCodec());
+//					pipeline.addLast(new HttpServerCodec());
 					//主要就是将一个http请求或者响应变成一个FullHttpRequest对象
-					pipeline.addLast(new HttpObjectAggregator(64*1024));
+//					pipeline.addLast(new HttpObjectAggregator(64*1024));
+//					pipeline.addLast(new HttpRequestDecoder());  
+//                    pipeline.addLast(new HttpResponseEncoder());
+//					pipeline.addLast("compressor", new HttpContentCompressor());  
 					//这个是用来处理文件流
-					pipeline.addLast(new ChunkedWriteHandler());
+//					pipeline.addLast(new ChunkedWriteHandler());
 					//处理HTTP请求的业务逻辑
-					pipeline.addLast(new HttpServerHandler());
+//					pipeline.addLast(new HttpServerHandler());
+					 pipeline.addLast(new HttpServerCodec());
+				        pipeline.addLast(new HttpObjectAggregator(640*1024));
+				        pipeline.addLast(new ChunkedWriteHandler());
+//				        pipeline.addLast(new HttpRequestHandler());
+				        pipeline.addLast(new HttpServerHandler());
+					
+					//上传文件
+					/*pipeline.addLast(new HttpRequestDecoder());  
+                    pipeline.addLast(new HttpResponseEncoder());  
+                    pipeline.addLast("compressor", new HttpContentCompressor());  
+                    pipeline.addLast(new HttpFileHandler());  */
 					
 					//======== 对WebSocket协议的支持  ==========
                 	//加上这个Handler就已经能够解析WebSocket请求了
@@ -72,6 +91,11 @@ public class ChatServer {
 					pipeline.addLast(new WebSocketServerProtocolHandler("/im"));
 					//实现处理WebSocket逻辑的Handler
 					pipeline.addLast(new WebsocketHandler());
+					
+//					pipeline.addLast(new HttpRequestDecoder());  
+//                    pipeline.addLast(new HttpResponseEncoder());  
+//                    pipeline.addLast("compressor", new HttpContentCompressor());  
+                    pipeline.addLast(new HttpFileHandler()); 
 					
 					
 				}});

@@ -45,8 +45,8 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 			contextType = "text/css;";
 		} else if (uri.endsWith(".js")){
 			contextType="text/javascript;";
-		} else if (uri.toLowerCase().matches("(jpg|png|gif|ico)$")){
-			contextType="image/"+ StringUtils.substring(uri, uri.lastIndexOf("."))+ ";";
+		} else if (uri.toLowerCase().matches(".+(jpg|png|gif|ico)$")){
+			contextType="image/"+ StringUtils.substring(uri, uri.lastIndexOf(".")+1)+ ";";
 		}
 		httpResponse.headers().add(HttpHeaders.Names.CONTENT_TYPE, contextType+"charset=utf8;");
 		boolean keepalive = HttpHeaders.isKeepAlive(request);
